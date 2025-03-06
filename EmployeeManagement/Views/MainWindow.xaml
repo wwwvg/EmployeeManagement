@@ -77,11 +77,13 @@
                     <ColumnDefinition Width="3*" />
                     <ColumnDefinition Width="{Binding AgeWidth}"/>
                     <ColumnDefinition Width="{Binding SalaryWidth}"/>
+                    <ColumnDefinition Width="{Binding EmptyWidth}"/>
                 </Grid.ColumnDefinitions>
                 <Grid Grid.Column="0" x:Name="Col0"/>
                 <Grid Grid.Column="1" x:Name="Col1"/>
                 <Grid Grid.Column="2" x:Name="Col2"/>
                 <Grid Grid.Column="3" x:Name="Col3" />
+                <Grid Grid.Column="4" x:Name="Col4" />
             </Grid>
 
             <ListView ItemsSource="{Binding Employees}">
@@ -91,6 +93,7 @@
                         <GridViewColumn Header="Фамилия" Width="{Binding ElementName=Col1,Path=ActualWidth}" DisplayMemberBinding="{Binding Path=Surname}"/>
                         <GridViewColumn Header="Возраст" Width="{Binding ElementName=Col2,Path=ActualWidth}" DisplayMemberBinding="{Binding Path=Age}"/>
                         <GridViewColumn Header="Зарплата" Width="{Binding ElementName=Col3,Path=ActualWidth}" DisplayMemberBinding="{Binding Path=Salary}"/>
+                        <GridViewColumn Header="" Width="{Binding ElementName=Col4,Path=ActualWidth}"  DisplayMemberBinding="{Binding Path=Empty}"/>
                     </GridView>
                 </ListView.View>
             </ListView>

@@ -16,6 +16,7 @@ namespace EmployeeManagement.ViewModels
         {
             var employee = new Employee { Name = "Vasily", Surname = "Grigoriev", Age = 42, Salary = 300000 };
             _employees.Add(employee);
+            SetEmptyWidth();
         }
 
 
@@ -46,6 +47,9 @@ namespace EmployeeManagement.ViewModels
         [ObservableProperty]
         string _salaryWidth = "0";
 
+        [ObservableProperty]
+        string _emptyWidth = "0";
+
         [RelayCommand]
         void ChangeAgeVisibility()
         {
@@ -53,6 +57,8 @@ namespace EmployeeManagement.ViewModels
                 AgeWidth = "2*";
             else
                 AgeWidth = "0";
+
+            SetEmptyWidth();
         }
 
         [RelayCommand]
@@ -62,6 +68,15 @@ namespace EmployeeManagement.ViewModels
                 SalaryWidth = "2*";
             else
                 SalaryWidth = "0";
+
+            SetEmptyWidth();
+        }
+
+        //чтобы ширина первых двух столбцов не менялась при скрытии последних двух столбцов
+        void SetEmptyWidth()
+        {
+            var AgeAndSalaryWidth = (int.Parse(AgeWidth.Replace("*", "")) + int.Parse(SalaryWidth.Replace("*", "")));
+            EmptyWidth = (4 - AgeAndSalaryWidth).ToString() + "*";
         }
     }
 }
