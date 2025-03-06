@@ -156,7 +156,16 @@
     </GradientBrush.GradientStops>
   </LinearGradientBrush>
 
-  <SolidColorBrush x:Key="DisabledBorderBrush" Color="#AAA" />
+    <LinearGradientBrush x:Key="PressedBorderBrush2" StartPoint="0,0" EndPoint="0,1">
+        <GradientBrush.GradientStops>
+            <GradientStopCollection>
+                <GradientStop Color="white" Offset="0.0"/>
+                <GradientStop Color="red" Offset="1.0"/>
+            </GradientStopCollection>
+        </GradientBrush.GradientStops>
+    </LinearGradientBrush>
+
+    <SolidColorBrush x:Key="DisabledBorderBrush" Color="#AAA" />
 
   <SolidColorBrush x:Key="SolidBorderBrush" Color="#888" />
 

@@ -7,12 +7,12 @@
         mc:Ignorable="d"
         Title="Employee Management" Height="450" Width="800">
 
-    <Window.Resources>
+    <!--<Window.Resources>
         <Style TargetType="ToggleButton" x:Key="ToolbarToggleButton">
             <Setter Property="Width" Value="26"/>
             <Setter Property="Height" Value="26"/>
         </Style>
-    </Window.Resources>
+    </Window.Resources>-->
 
     <Grid>
         <Grid.RowDefinitions>
@@ -28,7 +28,7 @@
                         ToolTip="Загрузить БД">
                         <Image Source="/Resources/Icons/load.png" />
                 </Button>
-                <Button Command="{Binding SaveEmployeesCommand}" Style="{StaticResource ToolbarButton}" Margin="10,0,0,0"
+                <Button Command="{Binding SaveEmployeesCommand}" IsEnabled="False" Style="{StaticResource ToolbarButton}" Margin="10,0,0,0"
                         ToolTip="Сохранить БД">
                     <Image Source="/Resources/Icons/save.png"/>
                 </Button>
@@ -51,7 +51,7 @@
             </ToolBar>
 
             <!-- Group 3: Visibility -->
-            <ToolBar Band="1" BandIndex="3" Width="100">
+            <ToolBar Band="1" BandIndex="3" Width="110">
                 <ToggleButton IsChecked="{Binding IsAgeVisible}" Style="{StaticResource ToolbarToggleButton}"
                               ToolTip="Показывать возраст">
                               <Image Source="/Resources/Icons/oldman.png" />

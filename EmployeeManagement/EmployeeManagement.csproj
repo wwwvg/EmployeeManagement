@@ -6,11 +6,13 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>Resources\Icons\app.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove="Resources\Icons\add.png" />
     <None Remove="Resources\Icons\age.png" />
+    <None Remove="Resources\Icons\app.ico" />
     <None Remove="Resources\Icons\change.png" />
     <None Remove="Resources\Icons\delete.png" />
     <None Remove="Resources\Icons\load.png" />
@@ -18,6 +20,14 @@
     <None Remove="Resources\Icons\oldman.png" />
     <None Remove="Resources\Icons\salary.png" />
     <None Remove="Resources\Icons\save.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Resources\Icons\app.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\Icons\app.ico" />
   </ItemGroup>
 
   <ItemGroup>
