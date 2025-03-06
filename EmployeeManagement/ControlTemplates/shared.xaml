@@ -160,7 +160,7 @@
         <GradientBrush.GradientStops>
             <GradientStopCollection>
                 <GradientStop Color="white" Offset="0.0"/>
-                <GradientStop Color="red" Offset="1.0"/>
+                <GradientStop Color="Coral" Offset="1.0"/>
             </GradientStopCollection>
         </GradientBrush.GradientStops>
     </LinearGradientBrush>

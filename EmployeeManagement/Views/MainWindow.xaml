@@ -7,13 +7,11 @@
         xmlns:dlg="clr-namespace:EmployeeManagement.Views.Dialogs"
         mc:Ignorable="d"
         xmlns:prism="http://prismlibrary.com/" 
-        xmlns:local1="clr-namespace:EmployeeManagement.Helpers"
         prism:ViewModelLocator.AutoWireViewModel="True"
         Title="Employee Management" Height="800" Width="1200">
     
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="b2v" />
-        <local1:ProportionConverter x:Key="WidthConverter" />
     </Window.Resources>
     
     <Grid IsEnabled="{Binding IsInterfaceEnabled}">
@@ -89,66 +87,15 @@
             <ListView ItemsSource="{Binding Employees}">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="Имя" Width="{Binding ElementName=Col0,Path=ActualWidth}" DisplayMemberBinding="{Binding Path=Name}"/>
-                        <GridViewColumn Header="Фамилия" Width="{Binding ElementName=Col1,Path=ActualWidth}" DisplayMemberBinding="{Binding Path=Surname}"/>
-                        <GridViewColumn Header="Возраст" Width="{Binding ElementName=Col2,Path=ActualWidth}" DisplayMemberBinding="{Binding Path=Age}"/>
-                        <GridViewColumn Header="Зарплата" Width="{Binding ElementName=Col3,Path=ActualWidth}" DisplayMemberBinding="{Binding Path=Salary}"/>
-                        <GridViewColumn Header="" Width="{Binding ElementName=Col4,Path=ActualWidth}"  DisplayMemberBinding="{Binding Path=Empty}"/>
+                        <GridViewColumn Header="Имя"        Width="{Binding ElementName=Col0,Path=ActualWidth}" DisplayMemberBinding="{Binding Path=Name}"/>
+                        <GridViewColumn Header="Фамилия"    Width="{Binding ElementName=Col1,Path=ActualWidth}" DisplayMemberBinding="{Binding Path=Surname}"/>
+                        <GridViewColumn Header="Возраст"    Width="{Binding ElementName=Col2,Path=ActualWidth}" DisplayMemberBinding="{Binding Path=Age}"/>
+                        <GridViewColumn Header="Зарплата"   Width="{Binding ElementName=Col3,Path=ActualWidth}" DisplayMemberBinding="{Binding Path=Salary}"/>
+                        <GridViewColumn Header=""           Width="{Binding ElementName=Col4,Path=ActualWidth}" DisplayMemberBinding="{Binding Path=Empty}"/>
                     </GridView>
                 </ListView.View>
             </ListView>
         </Grid>
-        <!--<ListView x:Name="myListView" Grid.Row="1"
-                    ItemsSource="{Binding Employees}"
-                    SelectedItem="{Binding SelectedEmployee}"
-                    Margin="5"
-                  HorizontalAlignment="Stretch">
-            <ListView.View>
-                <GridView>
-                    <GridView.Columns>
-                        --><!-- Имя 30% ширины --><!--
-                        <GridViewColumn Header="Имя" 
-                            DisplayMemberBinding="{Binding Name}">
-                            <GridViewColumn.Width>
-                                <MultiBinding Converter="{StaticResource WidthConverter}" ConverterParameter="0.3">
-                                    <Binding RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type ListView}}" Path="ActualWidth"/>
-                                </MultiBinding>
-                            </GridViewColumn.Width>
-                        </GridViewColumn>
-
-                        --><!-- Фамилия 30% ширины --><!--
-                        <GridViewColumn Header="Фамилия" 
-                            DisplayMemberBinding="{Binding Surname}">
-                            <GridViewColumn.Width>
-                                <MultiBinding Converter="{StaticResource WidthConverter}" ConverterParameter="0.3">
-                                    <Binding RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type ListView}}" Path="ActualWidth"/>
-                                </MultiBinding>
-                            </GridViewColumn.Width>
-                        </GridViewColumn>
-
-                        --><!-- Возраст 20% ширины --><!--
-                        <GridViewColumn Header="Возраст"
-                            DisplayMemberBinding="{Binding Age}">
-                            <GridViewColumn.Width>
-                                <MultiBinding Converter="{StaticResource WidthConverter}" ConverterParameter="0.2">
-                                    <Binding RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type ListView}}" Path="ActualWidth"/>
-                                </MultiBinding>
-                            </GridViewColumn.Width>
-                        </GridViewColumn>
-
-                        --><!-- Зарплата 20% ширины --><!--
-                        <GridViewColumn Header="Зарплата" 
-                            DisplayMemberBinding="{Binding Salary}">
-                            <GridViewColumn.Width>
-                                <MultiBinding Converter="{StaticResource WidthConverter}" ConverterParameter="0.2">
-                                    <Binding RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type ListView}}" Path="ActualWidth"/>
-                                </MultiBinding>
-                            </GridViewColumn.Width>
-                        </GridViewColumn>
-                    </GridView.Columns>
-                </GridView>
-            </ListView.View>
-        </ListView>-->
         <!-- Индикатор загрузки -->
         <!--<Grid Grid.Row="1" Background="White"
             Visibility="{Binding IsLoading, Converter={StaticResource b2v}}">

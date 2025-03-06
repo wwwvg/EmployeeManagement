@@ -1,12 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using EmployeeManagement.Models;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EmployeeManagement.ViewModels
 {
@@ -19,7 +14,7 @@ namespace EmployeeManagement.ViewModels
             SetEmptyWidth();
         }
 
-
+        #region PROPERTIES
         [ObservableProperty]
         ObservableCollection<Employee> _employees = new();
 
@@ -49,11 +44,13 @@ namespace EmployeeManagement.ViewModels
 
         [ObservableProperty]
         string _emptyWidth = "0";
+        #endregion
 
+        #region METHODS
         [RelayCommand]
         void ChangeAgeVisibility()
         {
-            if(IsAgeVisible)
+            if (IsAgeVisible)
                 AgeWidth = "2*";
             else
                 AgeWidth = "0";
@@ -78,5 +75,6 @@ namespace EmployeeManagement.ViewModels
             var AgeAndSalaryWidth = (int.Parse(AgeWidth.Replace("*", "")) + int.Parse(SalaryWidth.Replace("*", "")));
             EmptyWidth = (4 - AgeAndSalaryWidth).ToString() + "*";
         }
+        #endregion
     }
 }
