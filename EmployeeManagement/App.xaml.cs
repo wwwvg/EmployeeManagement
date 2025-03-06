@@ -1,5 +1,4 @@
-﻿using System.Configuration;
-using System.Data;
+﻿using EmployeeManagement.Views;
 using System.Windows;
 
 namespace EmployeeManagement
@@ -7,8 +6,17 @@ namespace EmployeeManagement
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
-    public partial class App : Application
+    public partial class App : PrismApplication
     {
+        protected override Window CreateShell()
+        {
+            return Container.Resolve<MainWindow>();
+        }
+
+        protected override void RegisterTypes(IContainerRegistry containerRegistry)
+        {
+
+        }
     }
 
 }
