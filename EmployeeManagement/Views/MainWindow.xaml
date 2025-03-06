@@ -22,19 +22,19 @@
 
         <!-- Toolbar Container -->
         <ToolBarTray Grid.Row="0">
-            <!-- Group 1: Load/Save -->
+            <!-- Группа 1: Загрузить/Сохранить -->
             <ToolBar Band="1" BandIndex="1" Width="100">
                 <Button Command="{Binding LoadEmployeesCommand}" Style="{StaticResource ToolbarButton}"
                         ToolTip="Загрузить БД">
-                        <Image Source="/Resources/Icons/load.png" />
+                        <Image Source="/Resources/Icons/load2.png" />
                 </Button>
                 <Button Command="{Binding SaveEmployeesCommand}" IsEnabled="False" Style="{StaticResource ToolbarButton}" Margin="10,0,0,0"
                         ToolTip="Сохранить БД">
-                    <Image Source="/Resources/Icons/save.png"/>
+                    <Image Source="/Resources/Icons/save2.png"/>
                 </Button>
             </ToolBar>
 
-            <!-- Group 2: Employee Management -->
+            <!-- Группа 2: Создать/Изменить/Удалить -->
             <ToolBar Band="1" BandIndex="2" Width="140">
                 <Button Command="{Binding CreateEmployeeCommand}" Style="{StaticResource ToolbarButton}"
                         ToolTip="Добавить работника">
@@ -50,7 +50,7 @@
                 </Button>
             </ToolBar>
 
-            <!-- Group 3: Visibility -->
+            <!-- Группа 3: Зарплата/Возраст -->
             <ToolBar Band="1" BandIndex="3" Width="110">
                 <ToggleButton Command="{Binding ChangeAgeVisibilityCommand}"
                               IsChecked="{Binding IsAgeVisible}" 

@@ -16,10 +16,12 @@
     <None Remove="Resources\Icons\change.png" />
     <None Remove="Resources\Icons\delete.png" />
     <None Remove="Resources\Icons\load.png" />
+    <None Remove="Resources\Icons\load2.png" />
     <None Remove="Resources\Icons\money.png" />
     <None Remove="Resources\Icons\oldman.png" />
     <None Remove="Resources\Icons\salary.png" />
     <None Remove="Resources\Icons\save.png" />
+    <None Remove="Resources\Icons\save2.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -55,6 +57,7 @@
     <Resource Include="Resources\Icons\load.png">
       <CopyToOutputDirectory></CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\Icons\load2.png" />
     <Resource Include="Resources\Icons\money.png" />
     <Resource Include="Resources\Icons\oldman.png">
       <CopyToOutputDirectory></CopyToOutputDirectory>
@@ -65,6 +68,7 @@
     <Resource Include="Resources\Icons\save.png">
       <CopyToOutputDirectory></CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\Icons\save2.png" />
   </ItemGroup>
 
 </Project>
