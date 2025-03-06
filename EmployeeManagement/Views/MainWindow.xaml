@@ -1,0 +1,111 @@
+﻿<Window x:Class="EmployeeManagement.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:EmployeeManagement"
+        mc:Ignorable="d"
+        Title="Employee Management" Height="450" Width="800">
+
+    <Window.Resources>
+        <Style TargetType="ToggleButton" x:Key="ToolbarToggleButton">
+            <Setter Property="Width" Value="26"/>
+            <Setter Property="Height" Value="26"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Toolbar Container -->
+        <ToolBarTray Grid.Row="0">
+            <!-- Group 1: Load/Save -->
+            <ToolBar Band="1" BandIndex="1" Width="100">
+                <Button Command="{Binding LoadEmployeesCommand}" Style="{StaticResource ToolbarButton}"
+                        ToolTip="Загрузить БД">
+                        <Image Source="/Resources/Icons/load.png" />
+                </Button>
+                <Button Command="{Binding SaveEmployeesCommand}" Style="{StaticResource ToolbarButton}" Margin="10,0,0,0"
+                        ToolTip="Сохранить БД">
+                    <Image Source="/Resources/Icons/save.png"/>
+                </Button>
+            </ToolBar>
+
+            <!-- Group 2: Employee Management -->
+            <ToolBar Band="1" BandIndex="2" Width="140">
+                <Button Command="{Binding CreateEmployeeCommand}" Style="{StaticResource ToolbarButton}"
+                        ToolTip="Добавить работника">
+                        <Image Source="/Resources/Icons/add.png" />
+                </Button>
+                <Button Command="{Binding EditEmployeeCommand}" Style="{StaticResource ToolbarButton}" Margin="10,0,0,0"
+                        ToolTip="Изменить данные работника">
+                        <Image Source="/Resources/Icons/change.png" />
+                </Button>
+                <Button Command="{Binding DeleteEmployeeCommand}" Style="{StaticResource ToolbarButton}" Margin="10,0,0,0"
+                        ToolTip="Удалить работника">
+                        <Image Source="/Resources/Icons/delete.png" />
+                </Button>
+            </ToolBar>
+
+            <!-- Group 3: Visibility -->
+            <ToolBar Band="1" BandIndex="3" Width="100">
+                <ToggleButton IsChecked="{Binding IsAgeVisible}" Style="{StaticResource ToolbarToggleButton}"
+                              ToolTip="Показывать возраст">
+                              <Image Source="/Resources/Icons/oldman.png" />
+                </ToggleButton>
+                <ToggleButton IsChecked="{Binding IsSalaryVisible}" Style="{StaticResource ToolbarToggleButton}" Margin="10,0,0,0"
+                              ToolTip="Показывать зарплату">
+                              <Image Source="/Resources/Icons/money.png" />
+                </ToggleButton>
+            </ToolBar>
+        </ToolBarTray>
+
+        <!-- Loading Overlay -->
+        <Grid Grid.Row="1" Background="White">
+            <!--Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}">-->
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                <TextBlock Text="Loading..." 
+                           FontSize="24" 
+                           Foreground="Gray" 
+                           HorizontalAlignment="Center"/>
+                <ProgressBar IsIndeterminate="True" 
+                             Width="200" 
+                             Height="10" 
+                             Margin="0,10"/>
+            </StackPanel>
+        </Grid>
+
+        <!-- Employees ListView -->
+        <ListView Grid.Row="1" 
+                  ItemsSource="{Binding Employees}"
+                  SelectedItem="{Binding SelectedEmployee}"
+                  Margin="5">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="2*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="{Binding Name}" Grid.Column="0" />
+                        <TextBlock Text="{Binding Surname}" Grid.Column="1" />
+                        <TextBlock Text="{Binding Age}" 
+                                   Grid.Column="2" 
+                                   Visibility="{Binding DataContext.IsAgeVisible, 
+                                    RelativeSource={RelativeSource AncestorType=ListView}}" />
+                        <TextBlock Text="{Binding Salary}" 
+                                   Grid.Column="3" 
+                                   Visibility="{Binding DataContext.IsSalaryVisible, 
+                                    RelativeSource={RelativeSource AncestorType=ListView}}" />
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</Window>
