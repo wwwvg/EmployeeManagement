@@ -6,10 +6,7 @@ namespace EmployeeManagement.ViewModels
 {
     public partial class EditDialogViewModel : ObservableObject, IDialogAware
     {
-        public EditDialogViewModel()
-        {
-
-        }
+        public string Title => "Добавление/изменение сотрудника";
 
         [ObservableProperty]
         private string? _name;

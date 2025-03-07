@@ -13,6 +13,7 @@ namespace EmployeeManagement
         public const string SURNAME = "Surname";
         public const string AGE = "Age";
         public const string SALARY = "Salary";
+        public const string MESSAGE = "Message";
         protected override Window CreateShell()
         {
             return Container.Resolve<MainWindow>();
@@ -21,6 +22,7 @@ namespace EmployeeManagement
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterDialog<EditDialog, EditDialogViewModel>();
+            containerRegistry.RegisterDialog<ConfirmationDialog, ConfirmationDialogViewModel>();
             containerRegistry.RegisterSingleton<IEmployeeStorageService, FileEmployeeStorageService>();
         }
     }

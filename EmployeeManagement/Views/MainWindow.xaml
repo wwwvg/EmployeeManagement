@@ -106,9 +106,15 @@
             </ListView>
         </Grid>
         <!-- Индикатор загрузки -->
-        <Grid Grid.Row="1" Background="White"
+        <Grid Grid.Row="1"
             Visibility="{Binding IsLoading, Converter={StaticResource b2v}}">
-            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Grid.Background>
+                <SolidColorBrush Color="Gray" Opacity="0.3"/>
+            </Grid.Background>
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Width="300" Height="100">
+                <StackPanel.Background>
+                    <SolidColorBrush Color="White"/>
+                </StackPanel.Background>
                 <TextBlock Text="{Binding StatusMessage}" 
                     FontSize="24" 
                     Foreground="Black" 

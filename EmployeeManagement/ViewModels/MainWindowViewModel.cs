@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using DryIoc;
 using EmployeeManagement.Models;
 using EmployeeManagement.Services;
 using EmployeeManagement.Services.Interfaces;
@@ -109,6 +110,7 @@ namespace EmployeeManagement.ViewModels
         [RelayCommand]
         async void LoadEmployees()
         {
+            SetButtonsEnabled(load: false, save: false, add: false, edit: false, delete: false);
             IsLoading = true;
             StatusMessage = "Идет загрузка...";
             try
@@ -144,7 +146,7 @@ namespace EmployeeManagement.ViewModels
         void CreateEmployee()
         {
             var dummy = GetDummy();
-            var parameters = new DialogParameters { {"Name", dummy.Item1}, {"Surname", dummy.Item2}, { "Age", dummy.Item3}, { "Salary", dummy.Item4} };
+            var parameters = new DialogParameters { { App.NAME, dummy.Item1 }, { App.SURNAME, dummy.Item2 }, { App.AGE, dummy.Item3 }, { App.SALARY, dummy.Item4 } };
             _dialogService.ShowDialog("EditDialog", parameters, result =>
             {
                 if (result.Result == ButtonResult.OK)
@@ -163,10 +165,49 @@ namespace EmployeeManagement.ViewModels
         }
 
         [RelayCommand]
+        void EditEmployee()
+        {
+            if(SelectedEmployee != null)
+            {
+                var parameters = new DialogParameters { { App.NAME, SelectedEmployee.Name }, { App.SURNAME, SelectedEmployee.Surname }, { App.AGE, SelectedEmployee.Age }, { App.SALARY, SelectedEmployee.Salary } };
+                _dialogService.ShowDialog("EditDialog", parameters, result =>
+                {
+                    if (result.Result == ButtonResult.OK)
+                    {
+                        var name = result.Parameters["Name"]?.ToString() ?? string.Empty;
+                        var surname = result.Parameters["Surname"]?.ToString() ?? string.Empty;
+                        var ageCorrect = int.TryParse(result.Parameters["Age"]?.ToString(), out int age);
+                        var salaryCorrect = double.TryParse(result.Parameters["Salary"]?.ToString(), out double salary);
+                        if (ageCorrect && salaryCorrect && name != string.Empty && surname != string.Empty)
+                        {
+                            for(int i = 0; i < Employees.Count; i++)
+                            {
+                                if (Employees[i] == SelectedEmployee)
+                                {
+                                    Employees[i] = new Employee { Name = name, Surname = surname, Age = age, Salary = salary };
+                                    return;
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        [RelayCommand]
         void DeleteEmployee()
         {
             if (SelectedEmployee != null && Employees.Count > 0)
-                Employees.Remove(SelectedEmployee);
+            {
+                var parameters = new DialogParameters { { App.MESSAGE, "Удалить выбранного работника?" } };
+                _dialogService.ShowDialog("ConfirmationDialog", parameters, result =>
+                {
+                    if (result.Result == ButtonResult.OK)
+                    {
+                        Employees.Remove(SelectedEmployee);
+                    }
+                });
+            }
         }
 
         (string Name, string Surname, int Age, double Salary) GetDummy()
