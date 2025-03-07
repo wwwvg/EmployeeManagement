@@ -13,7 +13,7 @@
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="b2v" />
     </Window.Resources>
-    
+
     <Grid IsEnabled="{Binding IsInterfaceEnabled}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -24,12 +24,16 @@
         <ToolBarTray Grid.Row="0">
             <!-- Группа 1: Загрузить/Сохранить -->
             <ToolBar Band="1" BandIndex="1" Width="100">
-                <Button Command="{Binding LoadEmployeesCommand}" Style="{StaticResource ToolbarButton}"
-                        ToolTip="Загрузить БД">
-                        <Image Source="/Resources/Icons/load2.png" />
+                <Button Command="{Binding LoadEmployeesCommand}"
+                    IsEnabled="{Binding IsLoadEmployeesCommandEnabled}"
+                    Style="{StaticResource ToolbarButton}"
+                    ToolTip="Загрузить БД">
+                    <Image Source="/Resources/Icons/load2.png" />
                 </Button>
-                <Button Command="{Binding SaveEmployeesCommand}" IsEnabled="False" Style="{StaticResource ToolbarButton}" Margin="10,0,0,0"
-                        ToolTip="Сохранить БД">
+                <Button Command="{Binding SaveEmployeesCommand}"
+                    IsEnabled="{Binding IsSaveEmployeesCommandEnabled}"
+                    Style="{StaticResource ToolbarButton}" Margin="10,0,0,0"
+                    ToolTip="Сохранить БД">
                     <Image Source="/Resources/Icons/save2.png"/>
                 </Button>
             </ToolBar>
@@ -37,32 +41,35 @@
             <!-- Группа 2: Создать/Изменить/Удалить -->
             <ToolBar Band="1" BandIndex="2" Width="140">
                 <Button Command="{Binding CreateEmployeeCommand}" Style="{StaticResource ToolbarButton}"
-                        ToolTip="Добавить работника">
-                        <Image Source="/Resources/Icons/add.png" />
+                    IsEnabled="{Binding IsCreateEmployeeCommandEnabled}"
+                    ToolTip="Добавить работника">
+                    <Image Source="/Resources/Icons/add.png" />
                 </Button>
                 <Button Command="{Binding EditEmployeeCommand}" Style="{StaticResource ToolbarButton}" Margin="10,0,0,0"
-                        ToolTip="Изменить данные работника">
-                        <Image Source="/Resources/Icons/change.png" />
+                    IsEnabled="{Binding IsEditEmployeeCommandEnabled}"
+                    ToolTip="Изменить данные работника">
+                    <Image Source="/Resources/Icons/change.png" />
                 </Button>
                 <Button Command="{Binding DeleteEmployeeCommand}" Style="{StaticResource ToolbarButton}" Margin="10,0,0,0"
-                        ToolTip="Удалить работника">
-                        <Image Source="/Resources/Icons/delete.png" />
+                    IsEnabled="{Binding IsDeleteEmployeeCommandEnabled}"
+                    ToolTip="Удалить работника">
+                    <Image Source="/Resources/Icons/delete.png" />
                 </Button>
             </ToolBar>
 
             <!-- Группа 3: Зарплата/Возраст -->
             <ToolBar Band="1" BandIndex="3" Width="110">
                 <ToggleButton Command="{Binding ChangeAgeVisibilityCommand}"
-                              IsChecked="{Binding IsAgeVisible}" 
-                              Style="{StaticResource ToolbarToggleButton}"
-                              ToolTip="Показывать возраст">
+                            IsChecked="{Binding IsAgeVisible}" 
+                            Style="{StaticResource ToolbarToggleButton}"
+                            ToolTip="Показывать возраст">
                     <Image Source="/Resources/Icons/oldman.png" />
                 </ToggleButton>
                 <ToggleButton Command="{Binding ChangeSalaryVisibilityCommand}"
-                              IsChecked="{Binding IsSalaryVisible}" 
-                              Style="{StaticResource ToolbarToggleButton}" Margin="10,0,0,0"
-                              ToolTip="Показывать зарплату">
-                              <Image Source="/Resources/Icons/money.png" />
+                            IsChecked="{Binding IsSalaryVisible}" 
+                            Style="{StaticResource ToolbarToggleButton}" Margin="10,0,0,0"
+                            ToolTip="Показывать зарплату">
+                    <Image Source="/Resources/Icons/money.png" />
                 </ToggleButton>
             </ToolBar>
         </ToolBarTray>
@@ -84,7 +91,7 @@
                 <Grid Grid.Column="4" x:Name="Col4" />
             </Grid>
 
-            <ListView ItemsSource="{Binding Employees}">
+            <ListView ItemsSource="{Binding Employees}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Имя"        Width="{Binding ElementName=Col0,Path=ActualWidth}" DisplayMemberBinding="{Binding Path=Name}"/>
@@ -97,25 +104,27 @@
             </ListView>
         </Grid>
         <!-- Индикатор загрузки -->
-        <!--<Grid Grid.Row="1" Background="White"
+        <Grid Grid.Row="1" Background="White"
             Visibility="{Binding IsLoading, Converter={StaticResource b2v}}">
             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
                 <TextBlock Text="{Binding StatusMessage}" 
-                   FontSize="24" 
-                   Foreground="Black" 
-                   HorizontalAlignment="Center"/>
-                <ProgressBar IsIndeterminate="True" 
-                     Width="200" 
-                     Height="10" 
-                     Margin="0,10"/>
+                    FontSize="24" 
+                    Foreground="Black" 
+                    HorizontalAlignment="Center"/>
+                <ProgressBar IsIndeterminate="True"
+                        Visibility="{Binding IsProgressBarVisible, Converter={StaticResource b2v}}"
+                        Width="200" 
+                        Height="10" 
+                        Margin="0,10"/>
             </StackPanel>
-        </Grid>-->
-        <!-- Добавление работника -->
-        <!--<Grid Grid.Row="1" Background="White"
-            Visibility="{Binding IsAddingEmployee, Converter={StaticResource b2v}}">
-            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                <dlg:EditDialog></dlg:EditDialog>
-            </StackPanel>
-        </Grid>-->
+        </Grid>
+        <!--</Grid>
+            Добавление работника 
+        <Grid Grid.Row="1" Background="White"
+        Visibility="{Binding IsAddingEmployee, Converter={StaticResource b2v}}">
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+            <dlg:EditDialog></dlg:EditDialog>
+        </StackPanel>
+    </Grid>-->
     </Grid>
 </Window>
