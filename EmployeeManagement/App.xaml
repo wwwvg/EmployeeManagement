@@ -11,6 +11,7 @@
                 <ResourceDictionary Source="ControlTemplates\ToolbarButton.xaml" />
                 <ResourceDictionary Source="ControlTemplates\ToolbarToggleButton.xaml" />
                 <ResourceDictionary Source="ControlTemplates\toolbar.xaml" />
+                <ResourceDictionary Source="ControlTemplates\listview.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

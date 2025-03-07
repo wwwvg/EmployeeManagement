@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using EmployeeManagement.Models;
+using EmployeeManagement.Services;
 using EmployeeManagement.Services.Interfaces;
 using System.Collections.ObjectModel;
 
@@ -10,11 +11,10 @@ namespace EmployeeManagement.ViewModels
     {
         public MainWindowViewModel(IDialogService dialogService, IEmployeeStorageService storageService)
         {
-            //var employee = new Employee { Name = "Vasily", Surname = "Grigoriev", Age = 42, Salary = 300000 };
-            //_employees.Add(employee);
             SetEmptyWidth();
             _dialogService = dialogService;
             _storageService = storageService;
+            //_selectedEmployeeChangedCommand = new RelayCommand(SelectedEmployeeChanged);
         }
 
         #region PROPERTIES
@@ -25,8 +25,10 @@ namespace EmployeeManagement.ViewModels
         [ObservableProperty]
         ObservableCollection<Employee> _employees = new();
 
+        //public IRelayCommand _selectedEmployeeChangedCommand { get; }
+
         [ObservableProperty]
-        Employee _selectedEmployee = null;
+        Employee _selectedEmployee;
 
         [ObservableProperty]
         bool _isLoading = false;
@@ -114,17 +116,17 @@ namespace EmployeeManagement.ViewModels
                 if (Employees.Count != 0)
                 {
                     Employees.Clear();
-                    SetButtonsEnabled(true, true, true, false, false);
+                    SetButtonsEnabled(load: true, save: true, add: true, edit: false, delete: false);
                     return;
                 }
-                await Task.Delay(2000);
+                await Task.Delay(1000);
                 var employees = await _storageService.LoadEmployeesAsync();
                 Employees.AddRange(employees);
                 StatusMessage = "Загрузка завершена!";
                 IsProgressBarVisible = false;
                 await Task.Delay(1000);
                 IsProgressBarVisible = true;
-                SetButtonsEnabled(true, false, true, false, false);
+                SetButtonsEnabled(load: true, save: false, add: true, edit: false, delete: false);
             }
             finally
             {
@@ -155,28 +157,49 @@ namespace EmployeeManagement.ViewModels
                     {
                         Employees.Add(new Employee { Name = name, Surname = surname, Age = age, Salary = salary });
                     }
+                    SetButtonsEnabled(load: true, save: true, add: true, edit: false, delete: false);
                 }
             });
         }
 
-        (string, string, int, double) GetDummy()
+        [RelayCommand]
+        void DeleteEmployee()
         {
-            var name = $"Имя{Employees.Count + 1}";
-            var surname = $"Фамилия{Employees.Count + 1}";
+            if (SelectedEmployee != null && Employees.Count > 0)
+                Employees.Remove(SelectedEmployee);
+        }
+
+        (string Name, string Surname, int Age, double Salary) GetDummy()
+        {
+            var nameSurname = NameGenerator.GetRandomNameAndSurname();
+            var name = nameSurname.FirstName;
+            var surname = nameSurname.LastName;
             var age = new Random().Next(16, 100);
             var salary = Math.Round((decimal)(new Random().Next(160000, 300000)) / 5000) * 5000;
+            
             return new(name, surname, age, (double)salary);
         }
 
-        void SetButtonsEnabled(bool load, bool save, bool add, bool change, bool delete)
+        void SetButtonsEnabled(bool load, bool save, bool add, bool edit, bool delete)
         {
             IsLoadEmployeesCommandEnabled = load;
             IsSaveEmployeesCommandEnabled = save;
             IsCreateEmployeeCommandEnabled = add;
-            IsEditEmployeeCommandEnabled = change;
+            IsEditEmployeeCommandEnabled = edit;
             IsDeleteEmployeeCommandEnabled = delete;
         }
 
+        partial void OnSelectedEmployeeChanged(Employee value)
+        {
+            if(value != null)
+            {
+                SetButtonsEnabled(load: true, save: true, add: true, edit: true, delete: true);
+            }
+            else
+            {
+                SetButtonsEnabled(load: true, save: true, add: true, edit: false, delete: false);
+            }
+        }
         #endregion
     }
 }

@@ -91,7 +91,9 @@
                 <Grid Grid.Column="4" x:Name="Col4" />
             </Grid>
 
-            <ListView ItemsSource="{Binding Employees}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+            <ListView ItemsSource="{Binding Employees}"
+                      SelectedItem="{Binding SelectedEmployee}"
+                      ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Имя"        Width="{Binding ElementName=Col0,Path=ActualWidth}" DisplayMemberBinding="{Binding Path=Name}"/>
