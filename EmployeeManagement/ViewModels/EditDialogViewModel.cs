@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace EmployeeManagement.ViewModels
 {
-    public partial class EditDialogViewModel : ObservableValidator, IDialogAware
+    public partial class EditDialogViewModel : ObservableValidator, INavigationAware
     {
         public EditDialogViewModel()
         {
@@ -35,17 +35,12 @@ namespace EmployeeManagement.ViewModels
 
         [ObservableProperty]
         [Range(0.01, double.MaxValue, ErrorMessage = "Зарплата должна быть больше 0.")]
-        private decimal _salary;
+        private double _salary;
 
         [RelayCommand(CanExecute = nameof(CanOk))]
         void Ok()
         {
-            var result = new DialogResult
-            {
-                Parameters = new DialogParameters { { App.NAME, Name }, { App.SURNAME, Surname }, { App.AGE, Age }, { App.SALARY, Salary } },
-                Result = ButtonResult.OK
-            };
-            RequestClose.Invoke(result);
+
         }
         private bool CanOk()
         {
@@ -56,35 +51,9 @@ namespace EmployeeManagement.ViewModels
         [RelayCommand]
         void Cancel()
         {
-            RequestClose.Invoke(ButtonResult.Cancel);
-        }
-
-        public DialogCloseListener RequestClose { get; }
-
-        public bool CanCloseDialog()
-        {
-            return true;
-        }
-
-        public void OnDialogClosed()
-        {
 
         }
 
-        public void OnDialogOpened(IDialogParameters parameters)
-        {
-            var name = parameters[App.NAME]?.ToString() ?? string.Empty;
-            var surname = parameters[App.SURNAME]?.ToString() ?? string.Empty;
-            var ageCorrect = int.TryParse(parameters[App.AGE]?.ToString(), out int age);
-            var salaryCorrect = int.TryParse(parameters[App.SALARY]?.ToString(), out int salary);
-            if (ageCorrect && salaryCorrect && name != string.Empty && surname != string.Empty)
-            {
-                Name = name;
-                Surname = surname;
-                Age = age;
-                Salary = salary;
-            }
-        }
         #region VALIDATION
         // Кастомная валидация для имени
         public static ValidationResult ValidateName(string name, ValidationContext context)
@@ -100,6 +69,28 @@ namespace EmployeeManagement.ViewModels
             if (surname != null && !surname.All(char.IsLetter))
                 return new ValidationResult("Фамилия должна содержать только буквы.");
             return ValidationResult.Success;
+        }
+
+        public void OnNavigatedTo(NavigationContext navigationContext)
+        {
+            if (navigationContext.Parameters.ContainsKey("Employee"))
+            {
+                var employee = navigationContext.Parameters.GetValue<Employee>("Employee");
+                Name = employee.Name;
+                Surname = employee.Surname;
+                Age = employee.Age;
+                Salary = employee.Salary;
+            }
+        }
+
+        public bool IsNavigationTarget(NavigationContext navigationContext)
+        {
+            return true;
+        }
+
+        public void OnNavigatedFrom(NavigationContext navigationContext)
+        {
+
         }
 
         #endregion

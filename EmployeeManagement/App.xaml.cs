@@ -21,9 +21,16 @@ namespace EmployeeManagement
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterDialog<EditDialog, EditDialogViewModel>();
-            containerRegistry.RegisterDialog<ConfirmationDialog, ConfirmationDialogViewModel>();
+            //containerRegistry.RegisterDialog<EditDialog, EditDialogViewModel>();
+            //containerRegistry.RegisterDialog<ConfirmationDialog, ConfirmationDialogViewModel>();
             containerRegistry.RegisterSingleton<IEmployeeStorageService, FileEmployeeStorageService>();
+            
+            //containerRegistry.RegisterForNavigation<EmployeeData, EmployeeDataViewModel>();
+            containerRegistry.RegisterForNavigation<EmptyDialog>();
+            containerRegistry.RegisterForNavigation<ProgressDialog>();
+            containerRegistry.RegisterForNavigation<EditDialog, EditDialogViewModel>();
+            containerRegistry.RegisterForNavigation<MessageDialog, MessageDialogViewModel>();
+            containerRegistry.RegisterForNavigation<ConfirmationDialog>();
         }
     }
 }
