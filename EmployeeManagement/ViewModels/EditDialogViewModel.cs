@@ -8,13 +8,16 @@ namespace EmployeeManagement.ViewModels
 {
     public partial class EditDialogViewModel : ObservableValidator, INavigationAware
     {
-        public EditDialogViewModel()
+        public EditDialogViewModel(IRegionManager regionManager)
         {
+            _regionManager = regionManager;
             // Подписываемся на изменения свойств, чтобы обновлять состояние команды
             PropertyChanged += (s, e) => OkCommand.NotifyCanExecuteChanged();
         }
-
+        IRegionManager _regionManager;
         public string Title => "Добавление/изменение сотрудника";
+        private string _returnViewName;
+        
 
         // Поля с валидацией
         [ObservableProperty]
@@ -40,7 +43,22 @@ namespace EmployeeManagement.ViewModels
         [RelayCommand(CanExecute = nameof(CanOk))]
         void Ok()
         {
+            // Создаем объект Employee для возврата
+            var employee = new Employee
+            {
+                Name = Name,
+                Surname = Surname,
+                Age = Age,
+                Salary = Salary
+            };
 
+            // Создаем навигационные параметры
+            var parameters = new NavigationParameters();
+            parameters.Add("Result", employee);
+            parameters.Add("DialogResult", true);
+
+            // Навигация обратно с передачей параметров
+            _regionManager.RequestNavigate("ContentRegion", _returnViewName, parameters);
         }
         private bool CanOk()
         {
@@ -51,7 +69,11 @@ namespace EmployeeManagement.ViewModels
         [RelayCommand]
         void Cancel()
         {
+            // Навигация обратно с признаком отмены операции
+            var parameters = new NavigationParameters();
+            parameters.Add("DialogResult", false);
 
+            _regionManager.RequestNavigate("ContentRegion", _returnViewName, parameters);
         }
 
         #region VALIDATION
@@ -73,6 +95,8 @@ namespace EmployeeManagement.ViewModels
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
+            if (navigationContext.Parameters.ContainsKey("ReturnViewName"))
+                _returnViewName = navigationContext.Parameters.GetValue<string>("ReturnViewName");
             if (navigationContext.Parameters.ContainsKey("Employee"))
             {
                 var employee = navigationContext.Parameters.GetValue<Employee>("Employee");

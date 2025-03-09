@@ -6,7 +6,7 @@
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="b2v" />
     </UserControl.Resources>
-    <Grid>
+    <Grid IsEnabled="{Binding IsInterfaceEnabled}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>

@@ -1,21 +1,16 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using Prism.Commands;
-using Prism.Mvvm;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace EmployeeManagement.ViewModels
 {
-	public partial class ProgressDialogViewModel : ObservableObject, INavigationAware
-	{
+    public partial class ProgressDialogViewModel : ObservableObject, INavigationAware
+    {
         public ProgressDialogViewModel()
         {
 
         }
 
         [ObservableProperty]
-        string _statusMessage = "";
+        string _message = "";
 
         public bool IsNavigationTarget(NavigationContext navigationContext)
         {
@@ -30,7 +25,7 @@ namespace EmployeeManagement.ViewModels
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
             if (navigationContext.Parameters.ContainsKey("Message"))
-                StatusMessage = navigationContext.Parameters.GetValue<string>("Message");
+                Message = navigationContext.Parameters.GetValue<string>("Message");
         }
     }
 }

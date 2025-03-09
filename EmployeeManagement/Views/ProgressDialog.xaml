@@ -8,7 +8,7 @@
             <StackPanel.Background>
                 <SolidColorBrush Color="White"/>
             </StackPanel.Background>
-            <TextBlock Text="{Binding StatusMessage}" 
+            <TextBlock Text="{Binding Message}" 
         FontSize="24" 
         Foreground="Black" 
         HorizontalAlignment="Center"
