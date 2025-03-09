@@ -25,7 +25,8 @@
             <Button Content="OK" 
                 Command="{Binding OkCommand}" 
                 Width="100" 
-                Margin="0,0,10,0"/>
+                Margin="0,0,10,0"
+                IsDefault="True"/>
             <Button Content="Cancel" 
                 Command="{Binding CancelCommand}" 
                 Width="100"/>

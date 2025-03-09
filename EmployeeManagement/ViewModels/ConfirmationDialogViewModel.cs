@@ -7,10 +7,6 @@ namespace EmployeeManagement.ViewModels
 {
     public partial class ConfirmationDialogViewModel : ObservableObject, IDialogAware
     {
-        public ConfirmationDialogViewModel()
-        {
-
-        }
 
         [ObservableProperty]
         private string? _message;
@@ -31,6 +27,7 @@ namespace EmployeeManagement.ViewModels
         {
             Message = parameters[App.MESSAGE]?.ToString() ?? string.Empty;
         }
+
         [RelayCommand]
         void Ok()
         {

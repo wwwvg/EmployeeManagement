@@ -139,6 +139,7 @@ namespace EmployeeManagement.ViewModels
         [RelayCommand]
         async void SaveEmployees()
         {
+            SetButtonsEnabled(load: true, save: false, add: true, edit: IsEditEmployeeCommandEnabled, delete: IsDeleteEmployeeCommandEnabled);
             await _storageService.SaveEmployeesAsync(Employees.ToList<Employee>());
         }
 
@@ -159,7 +160,7 @@ namespace EmployeeManagement.ViewModels
                     {
                         Employees.Add(new Employee { Name = name, Surname = surname, Age = age, Salary = salary });
                     }
-                    SetButtonsEnabled(load: true, save: true, add: true, edit: false, delete: false);
+                    SetButtonsEnabled(load: true, save: true, add: true, edit: IsEditEmployeeCommandEnabled, delete: IsDeleteEmployeeCommandEnabled);
                 }
             });
         }
@@ -182,13 +183,16 @@ namespace EmployeeManagement.ViewModels
                         {
                             for(int i = 0; i < Employees.Count; i++)
                             {
-                                if (Employees[i] == SelectedEmployee)
+                                var editedEmployee = new Employee { Name = name, Surname = surname, Age = age, Salary = salary };
+                                if (Object.ReferenceEquals(Employees[i],SelectedEmployee) && editedEmployee != SelectedEmployee)
                                 {
-                                    Employees[i] = new Employee { Name = name, Surname = surname, Age = age, Salary = salary };
+                                    Employees[i] = editedEmployee;
+                                    SetButtonsEnabled(load: true, save: true, add: true, edit: IsEditEmployeeCommandEnabled, delete: IsDeleteEmployeeCommandEnabled);
                                     return;
                                 }
                             }
                         }
+                        SetButtonsEnabled(load: true, save: IsSaveEmployeesCommandEnabled, add: true, edit: IsEditEmployeeCommandEnabled, delete: IsDeleteEmployeeCommandEnabled);
                     }
                 });
             }
@@ -234,11 +238,11 @@ namespace EmployeeManagement.ViewModels
         {
             if(value != null)
             {
-                SetButtonsEnabled(load: true, save: true, add: true, edit: true, delete: true);
+                SetButtonsEnabled(load: true, save: IsSaveEmployeesCommandEnabled, add: true, edit: true, delete: true);
             }
             else
             {
-                SetButtonsEnabled(load: true, save: true, add: true, edit: false, delete: false);
+                SetButtonsEnabled(load: true, save: IsSaveEmployeesCommandEnabled, add: true, edit: false, delete: false);
             }
         }
         #endregion
