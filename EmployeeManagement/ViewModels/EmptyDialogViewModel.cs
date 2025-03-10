@@ -1,16 +1,10 @@
-﻿using Prism.Commands;
-using Prism.Mvvm;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace EmployeeManagement.ViewModels
+﻿namespace EmployeeManagement.ViewModels
 {
-	public class EmptyDialogViewModel : BindableBase
-	{
+    public class EmptyDialogViewModel : BindableBase
+    {
         public EmptyDialogViewModel()
         {
 
         }
-	}
+    }
 }

@@ -65,12 +65,6 @@
                 </ToggleButton>
             </ToolBar>
         </ToolBarTray>
-        <Grid Grid.Row="1"
-            Visibility="{Binding IsDialogShowning, Converter={StaticResource b2v}}">
-            <Grid.Background>
-                <SolidColorBrush Color="Gray" Opacity="0.3"/>
-            </Grid.Background>
-        </Grid>
         <!-- Список сотрудников -->
         <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3">
             <Grid>

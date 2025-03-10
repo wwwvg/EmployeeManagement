@@ -1,8 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using EmployeeManagement.Models;
-using System.Windows.Controls;
-using System.Xml.Linq;
 
 namespace EmployeeManagement.ViewModels
 {
@@ -13,12 +10,15 @@ namespace EmployeeManagement.ViewModels
             _regionManager = regionManager;
         }
 
+        #region PROPERTIES
         private string _returnViewName;
         IRegionManager _regionManager;
 
         [ObservableProperty]
         private string? _message;
+        #endregion
 
+        #region METHODS
         [RelayCommand]
         void Ok()
         {
@@ -37,7 +37,9 @@ namespace EmployeeManagement.ViewModels
             parameters.Add("DeleteEmployee", false);
             _regionManager.RequestNavigate("ContentRegion", _returnViewName, parameters);
         }
+        #endregion
 
+        #region РЕАЛИЗАЦИЯ ИНТЕРФЕЙСА НАВИГАЦИИ
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
             if (navigationContext.Parameters.ContainsKey("ReturnViewName"))
@@ -53,7 +55,8 @@ namespace EmployeeManagement.ViewModels
 
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {
-            
+
         }
+        #endregion
     }
 }

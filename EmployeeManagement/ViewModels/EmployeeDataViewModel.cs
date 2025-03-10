@@ -1,32 +1,23 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using EmployeeManagement.Models;
-using EmployeeManagement.Services.Interfaces;
 using EmployeeManagement.Services;
-using Prism.Commands;
-using Prism.Mvvm;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
+using EmployeeManagement.Services.Interfaces;
 using EmployeeManagement.Views;
-using DryIoc;
+using System.Collections.ObjectModel;
 
 namespace EmployeeManagement.ViewModels
 {
-	public partial class EmployeeDataViewModel : ObservableObject, INavigationAware
-	{
-        public EmployeeDataViewModel(IDialogService dialogService, IEmployeeStorageService storageService, IRegionManager regionManager)
+    public partial class EmployeeDataViewModel : ObservableObject, INavigationAware
+    {
+        public EmployeeDataViewModel(IEmployeeStorageService storageService, IRegionManager regionManager)
         {
             SetEmptyWidth();
-            _dialogService = dialogService;
             _storageService = storageService;
             _regionManager = regionManager;
         }
 
         #region PROPERTIES
-
-        IDialogService _dialogService;
         IEmployeeStorageService _storageService;
         IRegionManager _regionManager;
 
@@ -35,9 +26,6 @@ namespace EmployeeManagement.ViewModels
 
         [ObservableProperty]
         Employee _selectedEmployee;
-
-        [ObservableProperty]
-        bool _isDialogShowning = false;
 
         [ObservableProperty]
         bool _isInterfaceEnabled = true;
@@ -117,7 +105,6 @@ namespace EmployeeManagement.ViewModels
                     return;
                 }
                 IsInterfaceEnabled = false;
-                IsDialogShowning = true;
                 var parameters = new NavigationParameters();
                 parameters.Add("Message", "Идет загрузка...");
                 _regionManager.RequestNavigate("DialogRegion", "ProgressDialog", parameters);
@@ -132,7 +119,6 @@ namespace EmployeeManagement.ViewModels
             }
             finally
             {
-                IsDialogShowning = false;
                 IsInterfaceEnabled = true;
                 SetButtonsEnabled(load: true, save: true, add: true, edit: false, delete: false);
             }
@@ -149,7 +135,6 @@ namespace EmployeeManagement.ViewModels
         void CreateEmployee()
         {
             IsInterfaceEnabled = false;
-            IsDialogShowning = true;
             var dummy = GetDummy();
             var employee = new Employee { Name = dummy.Name, Surname = dummy.Surname, Age = dummy.Age, Salary = dummy.Salary };
             var parameters = new NavigationParameters();
@@ -162,7 +147,6 @@ namespace EmployeeManagement.ViewModels
         void EditEmployee()
         {
             IsInterfaceEnabled = false;
-            IsDialogShowning = true;
             var dummy = GetDummy();
             var employee = new Employee { Name = SelectedEmployee.Name, Surname = SelectedEmployee.Surname, Age = SelectedEmployee.Age, Salary = SelectedEmployee.Salary };
             var parameters = new NavigationParameters();
@@ -212,20 +196,26 @@ namespace EmployeeManagement.ViewModels
                 SetButtonsEnabled(load: true, save: IsSaveEmployeesCommandEnabled, add: true, edit: false, delete: false);
             }
         }
+        #endregion
 
+        #region РЕАЛИЗАЦИЯ ИНТЕРФЕЙСА НАВИГАЦИИ
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
+            bool isModified = false;
             if (navigationContext.Parameters.ContainsKey("DeleteEmployee") && SelectedEmployee != null)
             {
                 bool deleteEmployee = navigationContext.Parameters.GetValue<bool>("DeleteEmployee");
-                if(deleteEmployee)
+                if (deleteEmployee)
+                {
                     Employees.Remove(SelectedEmployee);
+                    isModified = true;
+                }
             }
             else if (navigationContext.Parameters.ContainsKey("DialogResult"))
             {
                 bool dialogResult = navigationContext.Parameters.GetValue<bool>("DialogResult");
 
-                // Если диалог был подтвержден (кнопка OK)
+                // Если диалог был подтвержден
                 if (dialogResult && navigationContext.Parameters.ContainsKey("Result"))
                 {
                     var employee = navigationContext.Parameters.GetValue<Employee>("Result");
@@ -240,13 +230,14 @@ namespace EmployeeManagement.ViewModels
                         {
                             // Заменяем отредактированного сотрудника в коллекции
                             Employees[index] = employee;
+                            isModified = true;
                         }
                     }
                     else
                     {
                         // Добавляем нового сотрудника
                         Employees.Add(employee);
-                        SetButtonsEnabled(load: true, save: true, add: true, edit: false, delete: false);
+                        isModified = true;
                     }
                 }
             }
@@ -254,6 +245,8 @@ namespace EmployeeManagement.ViewModels
             SelectedEmployee = null;
             _regionManager.RequestNavigate("DialogRegion", "EmptyDialog");
             IsInterfaceEnabled = true;
+            if(isModified)
+                SetButtonsEnabled(load: true, save: true, add: true, edit: false, delete: false);
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)

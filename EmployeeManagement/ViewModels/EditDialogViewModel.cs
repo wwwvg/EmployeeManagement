@@ -1,7 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using EmployeeManagement.Models;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace EmployeeManagement.ViewModels
@@ -14,12 +13,13 @@ namespace EmployeeManagement.ViewModels
             // Подписываемся на изменения свойств, чтобы обновлять состояние команды
             PropertyChanged += (s, e) => OkCommand.NotifyCanExecuteChanged();
         }
+
+        #region PROPERTIES
         IRegionManager _regionManager;
         public string Title => "Добавление/изменение сотрудника";
         private string _returnViewName;
         
 
-        // Поля с валидацией
         [ObservableProperty]
         [Required(ErrorMessage = "Имя не может быть пустым.")]
         [MinLength(1, ErrorMessage = "Имя должно содержать хотя бы 1 символ.")]
@@ -39,7 +39,9 @@ namespace EmployeeManagement.ViewModels
         [ObservableProperty]
         [Range(0.01, double.MaxValue, ErrorMessage = "Зарплата должна быть больше 0.")]
         private double _salary;
+        #endregion
 
+        #region METHODS
         [RelayCommand(CanExecute = nameof(CanOk))]
         void Ok()
         {
@@ -75,6 +77,7 @@ namespace EmployeeManagement.ViewModels
 
             _regionManager.RequestNavigate("ContentRegion", _returnViewName, parameters);
         }
+        #endregion
 
         #region VALIDATION
         // Кастомная валидация для имени
@@ -92,7 +95,9 @@ namespace EmployeeManagement.ViewModels
                 return new ValidationResult("Фамилия должна содержать только буквы.");
             return ValidationResult.Success;
         }
+        #endregion
 
+        #region РЕАЛИЗАЦИЯ ИНТЕРФЕЙСА НАВИГАЦИИ
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
             if (navigationContext.Parameters.ContainsKey("ReturnViewName"))
@@ -116,7 +121,6 @@ namespace EmployeeManagement.ViewModels
         {
 
         }
-
         #endregion
-    }  
+    }
 }

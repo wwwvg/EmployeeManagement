@@ -4,14 +4,13 @@ namespace EmployeeManagement.ViewModels
 {
     public partial class ProgressDialogViewModel : ObservableObject, INavigationAware
     {
-        public ProgressDialogViewModel()
-        {
 
-        }
-
+        #region PROPERTIES
         [ObservableProperty]
         string _message = "";
+        #endregion
 
+        #region РЕАЛИЗАЦИЯ ИНТЕРФЕЙСА НАВИГАЦИИ
         public bool IsNavigationTarget(NavigationContext navigationContext)
         {
             return true;
@@ -27,5 +26,6 @@ namespace EmployeeManagement.ViewModels
             if (navigationContext.Parameters.ContainsKey("Message"))
                 Message = navigationContext.Parameters.GetValue<string>("Message");
         }
+        #endregion
     }
 }
